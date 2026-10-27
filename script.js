@@ -2849,7 +2849,7 @@ function createWorkbookPdf(mode) {
     };
 
     pdf.setProperties({
-      title: isBlank ? "LKPD Kosong - Hobi yang Jadi Prestasi" : "Hasil Pengerjaan - Hobi yang Jadi Prestasi",
+      title: isBlank ? "LKPD Kosong - coba" : "Hasil Pengerjaan - coba",
       subject: "Bahasa Indonesia Kelas 2",
     });
     addParagraph("RUANG BELAJAR - BAHASA INDONESIA KELAS 2", { fontSize: 9, bold: true, gap: 3 });
