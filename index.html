@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FEF2A0">
+    <title>Hobi yang Jadi Prestasi | Bahasa Indonesia Kelas 2</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="Asets/Library/jspdf.umd.min.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand sweep-link" href="#beranda" aria-label="Hobi yang Jadi Prestasi, beranda">
+            <span class="brand-mark" aria-hidden="true"><video id="brand-owl-animation" src="Asets/Video/OWL_ANIMATION.mp4" autoplay muted loop playsinline preload="metadata" tabindex="-1"></video></span>
+            <span>Ruang Belajar <small>Bahasa Indonesia • Kelas 2</small></span>
+        </a>
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">☰ <span>Menu</span></button>
+        <nav class="main-nav" id="main-nav" aria-label="Navigasi utama">
+            <span class="nav-active-shape" id="nav-active-shape" aria-hidden="true"></span>
+            <button class="nav-link is-active" data-page="beranda" aria-current="page">Beranda</button>
+            <button class="nav-link" data-page="materi">Materi</button>
+            <button class="nav-link" data-page="hobi">Kartu Hobi</button>
+            <button class="nav-link" data-page="latihan">Ayo Coba</button>
+            <button class="nav-link" data-page="kuis">Kuis</button>
+        </nav>
+        <div class="access-controls" aria-label="Pengaturan tampilan">
+            <div class="learning-controls">
+                <button class="setting-button music-toggle" id="music-toggle" type="button" aria-pressed="false" aria-label="Nyalakan musik">
+                    <span class="music-waveform" aria-hidden="true"><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span></span>
+                    <span class="music-label">MUSIC</span>
+                </button>
+                <div class="volume-control" id="volume-control">
+                    <button class="setting-button volume-toggle" id="volume-toggle" type="button" aria-label="Volume" aria-expanded="false" aria-controls="volume-popover">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 10v4h4l5 4V6l-5 4H4Z"></path><path class="volume-sound" d="M16 9a5 5 0 0 1 0 6m2.5-8.5a8.5 8.5 0 0 1 0 11"></path></svg>
+                        <span>VOLUME</span>
+                    </button>
+                    <div class="volume-popover" id="volume-popover" role="group" aria-labelledby="volume-title" aria-hidden="true" inert>
+                        <div class="volume-popover-heading"><label id="volume-title" for="music-volume">Volume</label><output id="music-volume-value" for="music-volume">30%</output></div>
+                        <input id="music-volume" type="range" min="0" max="1" step="0.05" value="0.3" aria-label="Atur volume musik">
+                    </div>
+                </div>
+                <button class="setting-button accessibility-toggle" id="accessibility-toggle" type="button" aria-expanded="false" aria-controls="accessibility-panel" aria-label="Buka panel aksesibilitas">Aksesibilitas</button>
+            </div>
+            <audio id="background-music" src="Asets/Audio/Backsound%201.mp3" preload="none" loop></audio>
+        </div>
+    </header>
+
+    <aside class="accessibility-panel" id="accessibility-panel" aria-labelledby="accessibility-panel-title" hidden>
+        <div class="accessibility-panel-header">
+            <div>
+                <p class="accessibility-panel-kicker">Pengaturan</p>
+                <h2 id="accessibility-panel-title">Aksesibilitas</h2>
+            </div>
+            <button class="accessibility-panel-close" id="accessibility-close" type="button" aria-label="Tutup panel aksesibilitas">✕</button>
+        </div>
+
+        <div class="accessibility-panel-section">
+            <h3>Ukuran teks</h3>
+            <div class="accessibility-actions">
+                <button class="button button-soft" type="button" data-access-action="text-small">Perkecil teks</button>
+                <button class="button button-soft" type="button" data-access-action="text-large">Perbesar teks</button>
+                <button class="button button-soft" type="button" data-access-action="text-normal">Ukuran teks normal</button>
+            </div>
+        </div>
+
+        <div class="accessibility-panel-section">
+            <h3>Tampilan</h3>
+            <div class="accessibility-actions accessibility-actions-compact">
+                <button class="button button-soft is-selected" type="button" data-access-action="theme-standard">Standar</button>
+                <button class="button button-soft" type="button" data-access-action="theme-high">Kontras tinggi</button>
+                <button class="button button-soft" type="button" data-access-action="toggle-quiet-mode" aria-pressed="false">Mode Tenang</button>
+            </div>
+        </div>
+
+        <div class="accessibility-panel-section">
+            <h3>Audio pembelajaran</h3>
+            <label class="learning-audio-label" for="audio-content-choice">Bagian yang dibacakan</label>
+            <select class="learning-audio-choice" id="audio-content-choice">
+                <option value="instructions">Instruksi</option>
+                <option value="material">Materi</option>
+                <option value="questions">Soal</option>
+                <option value="guidance">Petunjuk</option>
+            </select>
+            <div class="accessibility-actions learning-audio-controls">
+                <button class="button button-soft" type="button" data-access-action="read-selected">Bacakan bagian</button>
+                <button class="button button-soft" type="button" data-access-action="toggle-audio" disabled>Jeda</button>
+                <button class="button button-soft" type="button" data-access-action="stop-audio" disabled>Berhenti</button>
+                <button class="button button-soft" type="button" data-access-action="replay-audio" disabled>Ulangi bacaan</button>
+            </div>
+            <p id="audio-status" class="accessibility-status" role="status" aria-live="polite">Audio belum diputar.</p>
+        </div>
+
+        <div class="accessibility-panel-footer">
+            <button class="button button-primary" type="button" data-access-action="reset-settings">Atur ulang</button>
+        </div>
+    </aside>
+
+    <main>
+        <section class="page hero-page is-visible" id="beranda" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <span class="eyebrow heading-white-bg point-led-label"><span class="eyebrow-dot" aria-hidden="true"></span><span class="point-led-text">BAHASA INDONESIA • KELAS 2</span></span>
+                <h1 class="hero-title" id="hero-title">
+                    <span class="hero-title-accessible">Hobi yang<br>Jadi Prestasi</span>
+                    <svg class="hero-title-svg" viewBox="0 0 480 140" role="presentation" aria-hidden="true" focusable="false">
+                        <text class="hero-title-stroke hero-title-stroke-first" x="0" y="54">Hobi yang</text>
+                        <text class="hero-title-stroke hero-title-stroke-second" x="0" y="121">Jadi Prestasi</text>
+                        <text class="hero-title-fill hero-title-fill-first" x="0" y="54">Hobi yang</text>
+                        <text class="hero-title-fill hero-title-fill-second" x="0" y="121">Jadi Prestasi</text>
+                    </svg>
+                </h1>
+                <p class="hero-subtitle">Belajar tentang hobi dan kata penghubung.</p>
+                <p class="hero-description">Yuk, mengenal berbagai hobi sambil belajar menggunakan kata penghubung “dan” dan “tetapi”!</p>
+                <button class="button button-primary" id="start-learning" data-go="materi">Mulai Belajar</button>
+                <button class="button button-secondary" data-go="materi">Lihat Materi</button>
+            </div>
+            <section class="home-extras" aria-label="Perjalanan dan aktivitas belajar">
+                <div class="journey-panel">
+                    <div class="home-section-heading"><span class="eyebrow">PERJALANAN BELAJARKU</span><h2>Langkah kecil, ilmu bertambah!</h2></div>
+                    <nav class="journey-steps" aria-label="Perjalanan belajar">
+                        <button class="journey-step" data-page="hobi" data-journey-step="hobby"><span></span><b>Kenali Hobi</b><small class="journey-status">Belum dimulai</small></button>
+                        <button class="journey-step" data-page="materi" data-journey-step="material"><span></span><b>Pelajari “dan” & “tetapi”</b><small class="journey-status">Belum dimulai</small></button>
+                        <button class="journey-step" data-page="latihan" data-journey-step="practice"><span></span><b>Ayo Berlatih</b><small class="journey-status">Belum dimulai</small></button>
+                        <button class="journey-step" data-page="kuis" data-journey-step="quiz"><span></span><b>Mainkan Kuis</b><small class="journey-status">Belum dimulai</small></button>
+                        <span class="journey-step journey-finish" data-journey-step="finish"><span></span><b>Jadi Hebat!</b><small class="journey-status" id="journey-finish-status">Belum dimulai</small></span>
+                    </nav>
+                    <div class="journey-progress" role="progressbar" aria-label="Perjalanan belajar selesai" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0% selesai"><span id="journey-fill"></span></div>
+                    <p class="journey-progress-label" id="journey-progress-label" aria-live="polite">0% selesai</p>
+                    <p class="journey-summary" id="journey-summary" role="status" aria-live="polite" hidden></p>
+                    <div class="achievement-row" aria-label="Lencana belajarku">
+                        <span class="achievement-title">Lencana belajarku:</span>
+                        <span class="achievement-badge" data-achievement="hobby" aria-label="Penjelajah Hobi, belum didapatkan">Penjelajah Hobi</span>
+                        <span class="achievement-badge" data-achievement="practice" aria-label="Jago Kata Sambung, belum didapatkan">Jago Kata Sambung</span>
+                        <span class="achievement-badge" data-achievement="quiz" aria-label="Bintang Bahasa, belum didapatkan">Bintang Bahasa</span>
+                    </div>
+                </div>
+                <div class="home-preview">
+                    <div class="home-section-heading"><span class="eyebrow">JELAJAHI DUNIA BELAJAR</span><h2>Di Sini Kita Akan Belajar</h2></div>
+                    <div class="preview-grid">
+                        <button class="preview-card" data-go="materi"><span></span><b>Materi</b><small>Kenali hobi dan kata penghubung.</small><i aria-hidden="true"></i></button>
+                        <button class="preview-card" data-go="hobi"><span></span><b>Kartu Hobi</b><small>Lihat berbagai hobi yang menyenangkan.</small><i aria-hidden="true"></i></button>
+                        <button class="preview-card" data-go="latihan"><span></span><b>Ayo Coba</b><small>Latihan menggunakan “dan” dan “tetapi”.</small><i aria-hidden="true"></i></button>
+                        <button class="preview-card" data-go="kuis"><span></span><b>Kuis</b><small>Uji pemahamanmu!</small><i aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="page content-page" id="materi" aria-labelledby="materi-title" hidden>
+            <div class="section-heading">
+                <span class="eyebrow heading-white-bg top-down-letters">KENALI HOBI DAN KATA PENGHUBUNG</span>
+                <h2 id="materi-title" class="letter-hover">Yuk, Belajar!</h2>
+                <p>Kata sambung membantu kita menghubungkan kata atau bagian kalimat.</p>
+            </div>
+            <article class="definition-card hobby-definition"><span aria-hidden="true"></span><p><strong>Apa itu hobi?</strong><br>Hobi adalah kegiatan yang kita sukai dan senang kita lakukan.<br><small>Membaca • menggambar • menyanyi • bermain bola • berkebun • menari • memasak • bermain musik</small></p></article>
+            <div class="definition-card"><span aria-hidden="true"></span><p><strong>Apa itu kata sambung?</strong><br>Kata sambung adalah kata yang membantu menghubungkan kata atau bagian kalimat.</p></div>
+            <div class="lesson-grid">
+                <article class="lesson-card lesson-and">
+                    <div class="lesson-icon" aria-hidden="true"></div>
+                    <div class="lesson-tag">KATA SAMBUNG 1</div>
+                    <h3>Kata <span>“dan”</span></h3>
+                    <p>Kata <strong>dan</strong> menghubungkan dua hal yang sama-sama benar atau dilakukan.</p>
+                    <div class="example-box"><span>CONTOH</span><p>Aku suka membaca <b>dan</b> menggambar.</p></div>
+                    <div class="example-box example-box-small"><p>Rani bernyanyi <b>dan</b> menari.</p></div>
+                </article>
+                <article class="lesson-card lesson-but">
+                    <div class="lesson-icon" aria-hidden="true"></div>
+                    <div class="lesson-tag">KATA SAMBUNG 2</div>
+                    <h3>Kata <span>“tetapi”</span></h3>
+                    <p>Kata <strong>tetapi</strong> menghubungkan dua hal yang berbeda atau berlawanan.</p>
+                    <div class="example-box"><span>CONTOH</span><p>Aku suka menggambar, <b>tetapi</b> tidak suka mewarnai.</p></div>
+                    <div class="example-box example-box-small"><p>Rina suka membaca, <b>tetapi</b> adiknya suka bermain bola.</p></div>
+                </article>
+            </div>
+            <div class="lesson-tip"><span aria-hidden="true"></span><p><strong>Ingat, ya!</strong> Jika kedua hal cocok dilakukan bersama, pilih <b>dan</b>. Jika ada perbedaan, pilih <b>tetapi</b>.</p></div>
+            <div class="connector-compare"><article><b>DAN</b><span>menambahkan informasi</span></article><article><b>TETAPI</b><span>menunjukkan perbedaan</span></article></div>
+            <section class="material-check" aria-labelledby="material-check-title">
+                <div><span class="eyebrow">CEK PEMAHAMAN</span><h3 id="material-check-title">Yuk, coba jawab!</h3><p>Pilih kata sambung yang tepat untuk setiap kalimat.</p></div>
+                <div class="material-check-questions">
+                    <article class="material-check-question" data-material-question="0">
+                        <p>Aku suka membaca _____ menggambar.</p>
+                        <div class="choice-row" role="group" aria-label="Pilih kata sambung untuk kalimat pertama">
+                            <button class="choice-button" type="button" data-material-answer="dan">DAN</button>
+                            <button class="choice-button" type="button" data-material-answer="tetapi">TETAPI</button>
+                        </div>
+                        <p class="feedback material-check-feedback" aria-live="polite"></p>
+                    </article>
+                    <article class="material-check-question" data-material-question="1">
+                        <p>Aku ingin bermain bola, _____ hujan turun.</p>
+                        <div class="choice-row" role="group" aria-label="Pilih kata sambung untuk kalimat kedua">
+                            <button class="choice-button" type="button" data-material-answer="dan">DAN</button>
+                            <button class="choice-button" type="button" data-material-answer="tetapi">TETAPI</button>
+                        </div>
+                        <p class="feedback material-check-feedback" aria-live="polite"></p>
+                    </article>
+                </div>
+                <p id="material-check-summary" class="material-check-summary" role="status" aria-live="polite">Jawab kedua soal dengan tepat untuk menyelesaikan tahap materi.</p>
+            </section>
+            <div class="section-actions"><button class="button button-primary" data-go="hobi">Lihat Kartu Hobi</button></div>
+            <section class="reference-section" aria-labelledby="reference-title">
+                <div class="section-heading compact-heading"><span class="eyebrow heading-white-bg top-down-letters">SUMBER BELAJAR</span><h2 id="reference-title" class="letter-hover">Yuk, Nonton!</h2><p>Pilih video untuk memutarnya langsung atau buka tautan YouTube.</p></div>
+                <div class="video-grid">
+                    <article class="video-card" id="connector-video-card"><div class="video-frame" id="connector-video-frame" aria-label="Video kata sambung dan tetapi"></div><div class="video-copy"><h3>Belajar Kata Sambung “dan” dan “tetapi”</h3><p>Kata sambung membantu menghubungkan dua bagian kalimat.</p><a class="sweep-link" id="connector-video-link" href="https://www.youtube.com/results?search_query=kata+sambung+dan+tetapi+kelas+2" target="_blank" rel="noopener noreferrer">Cari video pembelajaran</a></div></article>
+                    <article class="video-card" id="hobby-video-card"><div class="video-frame" id="hobby-video-frame" aria-label="Video Mural"></div><div class="video-copy"><h3>Mural</h3><p>Video animasi Bing “Membuat Mural”.</p><a class="sweep-link" href="https://youtu.be/neH_6Qs9V_U?si=BX_Jux3OGu_DZ9om" target="_blank" rel="noopener noreferrer">Tonton video Mural di YouTube</a></div></article>
+                </div>
+            </section>
+            <section class="reference-section reading-section" aria-labelledby="reading-title">
+                <div class="section-heading compact-heading"><span class="eyebrow heading-white-bg top-down-letters">SUMBER BACAAN</span><h2 id="reading-title" class="letter-hover">Yuk, Baca Lagi!</h2><p>Pilih cerita dan buku dari sumber belajar eksternal.</p></div>
+                <div class="reference-grid reading-grid">
+                    <article class="reference-card"><span aria-hidden="true"></span><div><h3>SIBI</h3><p>Koleksi buku digital pendidikan.</p><small>Sumber eksternal</small><a class="sweep-link" href="https://buku.kemendikdasmen.go.id/" target="_blank" rel="noopener noreferrer">Cari Buku</a></div></article>
+                    <article class="reference-card"><span aria-hidden="true"></span><div><h3>Let's Read</h3><p>Temukan cerita anak yang seru dan mudah dibaca.</p><small>Sumber eksternal</small><a class="sweep-link" href="https://www.letsreadasia.org/" target="_blank" rel="noopener noreferrer">Baca Cerita</a></div></article>
+                    <article class="reference-card"><span aria-hidden="true"></span><div><h3>BUDI</h3><p>Berbagai bahan bacaan digital untuk anak.</p><small>Sumber eksternal</small><a class="sweep-link" href="https://budi.kemendikdasmen.go.id/" target="_blank" rel="noopener noreferrer">Jelajahi BUDI</a></div></article>
+                    <article class="reference-card"><span aria-hidden="true"></span><div><h3>Bahasa Indonesia Kelas 2</h3><p>Buku Bahasa Indonesia untuk pembelajaran Kelas 2 SD semester genap.</p><small>Sumber PDF</small><a class="sweep-link" href="Asets/File/Indonesia_BG_KLS_II_Rev.pdf" target="_blank" rel="noopener noreferrer">Buka Buku</a></div></article>
+                    <article class="reference-card"><span aria-hidden="true"></span><div><h3>Power Point "Hobi"</h3><p>Bahan ajar pendukung untuk mempelajari materi tentang hobi.</p><small>Berkas PDF</small><a class="sweep-link" href="Asets/File/PPT_BAHAN_AJAR_HOBI.pdf" target="_blank" rel="noopener noreferrer">Buka Bahan Ajar</a></div></article>
+                </div>
+            </section>
+        </section>
+
+        <section class="page content-page" id="hobi" aria-labelledby="hobi-title" hidden>
+            <div class="section-heading">
+                <span class="eyebrow heading-white-bg top-down-letters">KOLEKSI HOBI</span>
+                <h2 id="hobi-title" class="letter-hover">Kartu Hobiku</h2>
+                <p>Yuk, kenali berbagai hobi dan temukan hobi yang kamu sukai!</p>
+            </div>
+            <section class="hobby-carousel" aria-label="Koleksi kartu hobi">
+                <p class="hobby-card-count" id="hobby-card-count" aria-live="polite"></p>
+                <p class="hobby-swipe-hint">Geser kartu atau gunakan panah untuk melihat hobi lainnya.</p>
+                <div class="hobby-carousel-stage">
+                    <button class="hobby-carousel-arrow" id="hobby-previous" type="button" aria-label="Kartu hobi sebelumnya">←</button>
+                    <div class="hobby-carousel-viewport" id="hobby-carousel-viewport" tabindex="0" aria-label="Koleksi kartu. Gunakan panah kiri dan kanan untuk berpindah.">
+                        <div class="hobby-grid" id="hobby-grid" role="list"></div>
+                    </div>
+                    <button class="hobby-carousel-arrow" id="hobby-next" type="button" aria-label="Kartu hobi berikutnya">→</button>
+                </div>
+                <div class="hobby-carousel-pagination" id="hobby-pagination" role="group" aria-label="Pilih kartu hobi"></div>
+            </section>
+            <section class="custom-hobby-section" aria-labelledby="custom-hobbies-title">
+                <div class="custom-hobby-heading">
+                    <span class="eyebrow heading-white-bg top-down-letters">KREASIKAN KARTUMU</span>
+                    <h3 id="custom-hobbies-title" class="letter-hover">Hobiku Sendiri</h3>
+                    <p>Apa hobi yang kamu sukai?</p>
+                </div>
+                <form class="add-hobby-form" id="add-hobby-form">
+                    <label for="custom-hobby">Hobi saya adalah...</label>
+                    <div class="add-hobby-row"><input class="smooth-input" id="custom-hobby" name="hobby" maxlength="32" required placeholder="Contoh: membaca"><input class="smooth-input" id="custom-hobby-description" name="description" maxlength="80" aria-label="Deskripsi singkat hobi" placeholder="Deskripsi singkat"><button class="button button-primary" type="submit">Buat Kartu Hobiku</button></div>
+                <p id="hobby-form-feedback" class="feedback" aria-live="polite"></p>
+                </form>
+            </section>
+            <div class="section-actions"><button class="button button-primary" data-go="latihan">Ayo Berlatih</button></div>
+        </section>
+
+        <section class="page content-page practice-page" id="latihan" aria-labelledby="latihan-title" hidden>
+            <div class="section-heading">
+                <span class="eyebrow heading-white-bg top-down-letters">LATIHAN SINGKAT</span>
+                <h2 id="latihan-title" class="letter-hover">Ayo Coba!</h2>
+                <p>Belajar pelan-pelan. Setiap jawaban adalah latihan baru!</p>
+                <h3 class="print-workbook-title">Buku Kerja: Hobi dan Kata Penghubung</h3>
+            </div>
+            <div class="activity-progress" role="progressbar" aria-label="Tahap latihan selesai" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span id="activity-progress-label">0 / 5 tahap selesai</span><div><i id="activity-progress-fill"></i></div></div>
+            <div class="activity-list">
+                <article class="activity-step" data-activity-step="1">
+                    <span class="step-label">AKTIVITAS 1 · AMATI DAN SIMAK <b>1 / 5</b></span>
+                    <details class="activity-instructions"><summary>Langkah dan kriteria berhasil</summary><p><strong>Tujuan:</strong> menemukan informasi tentang hobi dari gambar dan cerita.</p><ol><li>Amati gambar anak yang sedang menggambar, lalu pilih kegiatan pada gambar.</li><li>Tekan “Dengarkan Cerita”. Dengarkan sampai selesai; ulangi jika perlu.</li><li>Jawab dua pertanyaan dari cerita. Kamu berhasil jika pilihan gambar dan kedua jawaban cerita tepat.</li></ol></details>
+                    <figure class="observation-art"><img src="Asets/Gambar/Kartu Hobi_Menggambar.jpeg" alt="Seorang anak sedang menggambar dengan pensil warna." data-audio-description="Gambar memperlihatkan seorang anak sedang menggambar di meja dengan pensil warna."></figure>
+                    <p class="observation-instruction">Amati gambar dengan saksama. Kegiatan apa yang dilakukan anak pada gambar?</p>
+                    <div class="choice-row observation-choices"><button class="choice-button" type="button" data-observation-answer="correct">Menggambar</button><button class="choice-button" type="button" data-observation-answer="wrong">Membaca buku</button></div>
+                    <p id="observation-feedback" class="feedback" aria-live="polite"></p>
+                    <section class="listening-activity" aria-labelledby="listening-title">
+                        <h3 id="listening-title">Hobi Menggambar Bima</h3>
+                        <p>Tekan tombol untuk mendengarkan cerita. Kamu bisa jeda atau mengulanginya melalui panel Aksesibilitas.</p>
+                        <button class="button button-primary" id="play-hobby-story" type="button">Dengarkan “Hobi Menggambar Bima”</button>
+                        <details class="story-transcript"><summary>Baca teks cerita</summary><h4 id="hobby-story-title">Hobi Menggambar Bima</h4><div id="hobby-story-text"><p>Setiap sore, Bima suka menggambar. Ia menggambar bunga, kupu-kupu, dan pemandangan. Bima juga suka mewarnai gambarnya.</p><p>Suatu hari, Bu Guru mengadakan lomba menggambar di sekolah. Bima ingin ikut lomba itu, tetapi ia merasa sedikit gugup.</p><p>Ibu memberi semangat kepada Bima. Bima pun berlatih dengan rajin dan tekun. Ia menggambar setiap sore.</p><p>Saat lomba tiba, Bima menggambar bunga dan kupu-kupu yang indah. Ia mengerjakan gambarnya dengan hati-hati.</p><p>Beberapa hari kemudian, Bu Guru mengumumkan pemenang lomba. Bima mendapat juara dua! Bima merasa senang dan bangga.</p><p>Bima belajar bahwa hobi dapat menjadi prestasi jika dilakukan dengan rajin dan sungguh-sungguh.</p></div></details>
+                        <div class="listening-questions">
+                            <article class="listening-question" data-listening-question="0"><p>Kegiatan apa yang disukai Bima?</p><div class="choice-row" role="group" aria-label="Pilih kegiatan yang disukai Bima"><button class="choice-button" type="button" data-listening-answer="menggambar dan mewarnai">Menggambar dan mewarnai</button><button class="choice-button" type="button" data-listening-answer="bermain bola">Bermain bola</button></div><p class="feedback listening-feedback" aria-live="polite"></p></article>
+                            <article class="listening-question" data-listening-question="1"><p>Juara berapa yang diraih Bima?</p><div class="choice-row" role="group" aria-label="Pilih juara yang diraih Bima"><button class="choice-button" type="button" data-listening-answer="juara dua">Juara dua</button><button class="choice-button" type="button" data-listening-answer="juara satu">Juara satu</button></div><p class="feedback listening-feedback" aria-live="polite"></p></article>
+                        </div>
+                        <p id="listening-summary" class="listening-summary" role="status" aria-live="polite">Jawab kedua pertanyaan cerita dan pertanyaan gambar dengan tepat untuk menyelesaikan aktivitas ini.</p>
+                    </section>
+                </article>
+                <article class="activity-step activity-two-step" data-activity-step="2">
+                    <span class="step-label"><span>AKTIVITAS 2 · KELOMPOKKAN “DAN” ATAU “TETAPI?”</span><b>2 / 5</b></span>
+                    <details class="activity-instructions"><summary>Langkah dan kriteria berhasil</summary><p><strong>Tujuan:</strong> membedakan hubungan makna “dan” dan “tetapi”. Baca setiap kalimat, pilih kata yang tepat, lalu lanjutkan ke kalimat berikutnya. Berhasil jika semua enam kalimat dikelompokkan dengan benar.</p></details>
+                    <p class="connector-instructions">Kelompokkan setiap kalimat. “Dan” menggabungkan hal yang tidak bertentangan, sedangkan “tetapi” menunjukkan perbedaan.</p>
+                    <div class="connector-activity" id="connector-card-activity">
+                        <section class="connector-question-area" aria-label="Kalimat untuk dikelompokkan">
+                            <article class="connector-question-card" aria-labelledby="activity-two-sentence">
+                                <span class="connector-card-label connector-card-count" id="connector-card-count" aria-live="polite">KALIMAT 1-6</span>
+                                <p class="connector-sentence" id="activity-two-sentence"></p>
+                                <p class="connector-card-status" id="activity-two-status" aria-live="polite">Belum dijawab</p>
+                                <div class="choice-row connector-choice-row" role="group" aria-label="Pilih kelompok untuk kalimat ini">
+                                    <button class="choice-button connector-choice" type="button" data-connector-choice="dan" aria-pressed="false">DAN</button>
+                                    <button class="choice-button connector-choice" type="button" data-connector-choice="tetapi" aria-pressed="false">TETAPI</button>
+                                </div>
+                                <p class="feedback connector-feedback" id="activity-two-feedback" aria-live="polite"></p>
+                                <button class="button button-primary connector-next" id="activity-two-next" type="button" hidden>Kalimat berikutnya</button>
+                            </article>
+                        </section>
+                        <div class="connector-groups" aria-label="Hasil pengelompokan kalimat">
+                            <section class="connector-group" aria-labelledby="activity-two-dan-title">
+                                <div class="connector-group-heading"><h3 id="activity-two-dan-title">DAN</h3><span id="activity-two-dan-count">0 kalimat</span></div>
+                                <p class="connector-group-description">Hal yang tidak bertentangan.</p>
+                                <ul class="connector-group-list" id="activity-two-dan-list"><li class="connector-group-empty">Belum ada kalimat.</li></ul>
+                            </section>
+                            <section class="connector-group" aria-labelledby="activity-two-tetapi-title">
+                                <div class="connector-group-heading"><h3 id="activity-two-tetapi-title">TETAPI</h3><span id="activity-two-tetapi-count">0 kalimat</span></div>
+                                <p class="connector-group-description">Hal yang menunjukkan perbedaan.</p>
+                                <ul class="connector-group-list" id="activity-two-tetapi-list"><li class="connector-group-empty">Belum ada kalimat.</li></ul>
+                            </section>
+                        </div>
+                        <p class="connector-summary" id="activity-two-summary" role="status" aria-live="polite">Pilih DAN atau TETAPI untuk mulai mengelompokkan.</p>
+                    </div>
+                </article>
+                <article class="activity-step" data-activity-step="3"><span class="step-label">AKTIVITAS 3 · LENGKAPI KALIMAT <b>3 / 5</b></span><details class="activity-instructions"><summary>Langkah dan kriteria berhasil</summary><p><strong>Tujuan:</strong> menggunakan kata sambung sesuai makna kalimat. Baca kalimat, pilih “dan” atau “tetapi”, lalu baca umpan balik. Berhasil jika ketiga kalimat dilengkapi dengan tepat.</p></details><div class="mini-activities" id="connector-activity"></div><p class="feedback good" id="connector-summary" role="status" aria-live="polite" hidden></p></article>
+                <article class="activity-step" data-activity-step="4">
+                    <span class="step-label">AKTIVITAS 4 · SUSUN KALIMAT <b>4 / 5</b></span>
+                    <details class="activity-instructions"><summary>Langkah dan kriteria berhasil</summary><p><strong>Tujuan:</strong> menyusun kata menjadi kalimat yang bermakna. Pilih semua kata, susun urutannya, lalu tekan “Periksa jawaban”. Berhasil jika ketiga kalimat tersusun dengan tepat. Tekan “Coba lagi” jika ingin menyusun ulang.</p></details>
+                    <p class="sentence-builder-instructions">Pilih kata satu per satu untuk menyusun kalimat, lalu periksa urutannya.</p>
+                    <div class="mini-activities" id="sentence-activity"></div>
+                </article>
+                <article class="activity-step" data-activity-step="5">
+                    <span class="step-label">AKTIVITAS 5 · TULIS KALIMATMU <b>5 / 5</b></span>
+                    <details class="activity-instructions"><summary>Langkah dan kriteria berhasil</summary><p><strong>Tujuan:</strong> menulis dua kalimat tentang hobi. Tulis satu kalimat dengan “dan” untuk dua kegiatan yang sama-sama dilakukan, lalu satu kalimat dengan “tetapi” untuk dua hal yang berbeda. Periksa ejaan dan maknanya. Pemeriksaan otomatis hanya melihat pola kata; mintalah guru memeriksa makna kalimatmu.</p><p><strong>Praktik tambahan:</strong> salin salah satu kalimat di buku tulis dengan tulisan yang terbaca. Minta guru mengamati tulisanmu.</p></details>
+                    <form id="sentence-form" class="sentence-form">
+                        <section class="sentence-writing-part" role="group" aria-labelledby="sentence-and-heading">
+                            <h3 id="sentence-and-heading">BAGIAN A · GUNAKAN “DAN”</h3>
+                            <p>Tuliskan satu kalimat tentang dua kegiatan yang kamu sukai bersama.</p>
+                            <p class="sentence-writing-pattern">Aku suka __________ dan __________.</p>
+                            <label for="student-sentence-and">Tulis kalimatmu dengan “dan”</label>
+                            <textarea class="smooth-input" id="student-sentence-and" rows="2" maxlength="120" placeholder="Aku suka ... dan ... ."></textarea>
+                            <p class="feedback sentence-writing-feedback" id="sentence-and-feedback" aria-live="polite"></p>
+                        </section>
+                        <section class="sentence-writing-part" role="group" aria-labelledby="sentence-tetapi-heading">
+                            <h3 id="sentence-tetapi-heading">BAGIAN B · GUNAKAN “TETAPI”</h3>
+                            <p>Tuliskan satu kalimat yang menunjukkan dua hal yang berbeda.</p>
+                            <p class="sentence-writing-pattern">Aku suka __________, tetapi __________.</p>
+                            <label for="student-sentence-tetapi">Tulis kalimatmu dengan “tetapi”</label>
+                            <textarea class="smooth-input" id="student-sentence-tetapi" rows="2" maxlength="120" placeholder="Aku suka ..., tetapi ... ."></textarea>
+                            <p class="feedback sentence-writing-feedback" id="sentence-tetapi-feedback" aria-live="polite"></p>
+                        </section>
+                        <fieldset class="self-check">
+                            <legend>Checklist periksa sendiri (bukan nilai otomatis)</legend>
+                            <label><input id="student-check-dan" type="checkbox"> Saya memakai “dan” untuk dua kegiatan yang sama-sama saya sukai.</label>
+                            <label><input id="student-check-tetapi" type="checkbox"> Saya memakai “tetapi” untuk menunjukkan perbedaan.</label>
+                            <label><input id="student-check-meaning" type="checkbox"> Kalimat saya menyampaikan maksud yang jelas.</label>
+                            <label><input id="student-check-review" type="checkbox"> Saya membaca kembali dan memeriksa tulisan saya.</label>
+                        </fieldset>
+                        <p class="assessment-note">Pemeriksaan otomatis hanya memeriksa pola kalimat, bukan menilai gagasanmu. Minta guru memeriksa makna dan pilihan kata.</p>
+                        <button class="button button-primary" type="submit">Periksa Kalimatku</button>
+                    </form>
+                    <section class="speaking-activity" aria-labelledby="speaking-title">
+                        <h3 id="speaking-title">Ceritakan Hobimu</h3>
+                        <p>Pilih satu hobi. Siapkan dua kalimat dari tulisanmu, gunakan “dan” atau “tetapi” dengan tepat, lalu ceritakan kepada satu teman atau guru. Dengarkan cerita teman dan tanggapi dengan sopan. Minta guru mengamati; website tidak menilai kegiatan berbicara.</p>
+                        <p class="speaking-alternative"><strong>Belum nyaman bercerita di depan kelompok?</strong> Berlatihlah dahulu bersama guru atau satu teman.</p>
+                        <details class="activity-instructions"><summary>Kriteria pengamatan guru</summary><p>Guru dapat mencatat apakah siswa (1) menyampaikan informasi tentang hobi, (2) menggunakan kata sambung sesuai makna, (3) berbicara agar pendengar dapat memahami, dan (4) mendengarkan serta menanggapi teman dengan sopan. Nilai setiap hal: Terlihat, Mulai berkembang, atau Perlu dukungan.</p></details>
+                        <div class="speaking-rubric">
+                            <label for="speaking-hobby-rating">Menyampaikan hobi</label><select id="speaking-hobby-rating"><option value="">Belum diamati</option><option>Terlihat</option><option>Mulai berkembang</option><option>Perlu dukungan</option></select>
+                            <label for="speaking-connector-rating">Menggunakan kata sambung</label><select id="speaking-connector-rating"><option value="">Belum diamati</option><option>Terlihat</option><option>Mulai berkembang</option><option>Perlu dukungan</option></select>
+                            <label for="speaking-clarity-rating">Berbicara dengan jelas</label><select id="speaking-clarity-rating"><option value="">Belum diamati</option><option>Terlihat</option><option>Mulai berkembang</option><option>Perlu dukungan</option></select>
+                            <label for="speaking-listening-rating">Mendengarkan dan menanggapi dengan sopan</label><select id="speaking-listening-rating"><option value="">Belum diamati</option><option>Terlihat</option><option>Mulai berkembang</option><option>Perlu dukungan</option></select>
+                        </div>
+                        <p class="assessment-note"><strong>Praktik menulis tangan:</strong> salin salah satu kalimatmu di buku tulis dengan tulisan yang terbaca. Guru dapat mengamati keterbacaan tulisan; kegiatan ini tidak dinilai otomatis.</p>
+                        <div class="speaking-rubric writing-rubric">
+                            <label for="writing-copy-rating">Menyalin kalimat dengan tulisan terbaca</label><select id="writing-copy-rating"><option value="">Belum diamati</option><option>Terlihat</option><option>Mulai berkembang</option><option>Perlu dukungan</option></select>
+                        </div>
+                        <label class="speaking-note-label" for="speaking-teacher-note">Catatan guru</label>
+                        <textarea class="smooth-input" id="speaking-teacher-note" rows="2" maxlength="240" placeholder="Catatan singkat setelah mendengarkan presentasi"></textarea>
+                        <p class="assessment-note">Penilaian berbicara diisi oleh guru setelah mengamati siswa, bukan dinilai otomatis oleh website.</p>
+                    </section>
+                </article>
+            </div>
+            <section class="workbook-tools" aria-labelledby="workbook-title">
+                <div>
+                    <h3 id="workbook-title">Buku Kerja: Hobi dan Kata Penghubung</h3>
+                    <p>Jawaban disimpan hanya di browser dan perangkat ini. Guru tidak dapat melihatnya dari perangkat lain.</p>
+                    <p id="answer-storage-status" role="status" aria-live="polite">Jawaban akan disimpan hanya di browser ini saat kamu mengerjakan.</p>
+                    <p class="workbook-print-hint">Unduh LKPD kosong untuk dicetak atau simpan hasil pengerjaan digital sebagai PDF.</p>
+                </div>
+                <div class="workbook-actions">
+                    <div class="workbook-action">
+                        <button class="button button-primary" id="save-workbook-blank-pdf" type="button">Unduh LKPD Kosong (PDF)</button>
+                        <p>Cetak dan isi LKPD ini dengan pensil.</p>
+                    </div>
+                    <div class="workbook-action">
+                        <button class="button button-primary" id="save-workbook-answers-pdf" type="button">Unduh Hasil Pengerjaan (PDF)</button>
+                        <p>Simpan jawaban yang sudah kamu kerjakan.</p>
+                    </div>
+                    <div class="workbook-action">
+                        <button class="button button-soft" id="print-workbook" type="button">Cetak Buku Kerja</button>
+                        <p>Cetak hasil Buku Kerjamu di atas kertas.</p>
+                    </div>
+                    <button class="button button-soft" id="clear-answers" type="button">Hapus Jawaban</button>
+                </div>
+                <p id="pdf-download-status" class="pdf-download-status" role="status" aria-live="polite"></p>
+            </section>
+            <section class="teacher-review" aria-label="Catatan guru">
+                <h3>Catatan atau penilaian guru</h3>
+                <div></div>
+            </section>
+            <div class="section-actions"><button class="button button-primary" data-go="kuis">Lanjut ke Kuis</button></div>
+        </section>
+
+        <section class="page content-page quiz-page" id="kuis" aria-labelledby="kuis-title" hidden>
+            <div class="section-heading">
+                <span class="eyebrow heading-white-bg top-down-letters">TANTANGAN BINTANG</span>
+                <h2 id="kuis-title" class="letter-hover">Kuis Seru!</h2>
+                <p>Jawab 10 soal. Setiap jawaban benar mendapat 10 poin!</p>
+            </div>
+            <div class="quiz-shell" id="quiz-shell">
+                <div class="quiz-progress-row"><span id="question-count">SOAL 1 DARI 10</span><span class="score-chip"><b id="live-score">0</b> poin</span></div>
+                <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+                <div class="quiz-question-area" id="quiz-question-area"></div>
+                <div class="quiz-feedback" id="quiz-feedback" aria-live="polite"></div>
+                <div class="quiz-controls"><button class="button button-soft" id="prev-question" disabled>← Sebelumnya</button><button class="button button-primary" id="next-question" disabled>Jawab</button></div>
+            </div>
+            <div class="result-panel" id="quiz-result" hidden aria-live="polite"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer"><span class="footer-flower" aria-hidden="true"></span><div><strong>Ruang Belajar</strong><p>Media Pembelajaran Bahasa Indonesia Kelas 2</p><span>Bab VIII — Hobi yang Jadi Prestasi</span></div><nav aria-label="Sumber belajar eksternal"><a class="sweep-link" href="https://buku.kemendikdasmen.go.id/" target="_blank" rel="noopener noreferrer">SIBI</a><a class="sweep-link" href="https://www.letsreadasia.org/" target="_blank" rel="noopener noreferrer">Let's Read</a><a class="sweep-link" href="https://budi.kemendikdasmen.go.id/" target="_blank" rel="noopener noreferrer">BUDI</a></nav></footer>
+    <div class="cursor-garden" id="cursor-garden" aria-hidden="true"></div>
+</body>
+</html>
