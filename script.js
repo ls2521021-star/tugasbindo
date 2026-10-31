@@ -2853,7 +2853,7 @@ function createWorkbookPdf(mode) {
       subject: "Bahasa Indonesia Kelas 2",
     });
     addParagraph("RUANG BELAJAR - BAHASA INDONESIA KELAS 2", { fontSize: 9, bold: true, gap: 3 });
-    addParagraph(practicePage.querySelector("#workbook-title")?.textContent.trim() || "Buku Kerja: Hobi dan Kata Penghubung", { fontSize: 18, bold: true, gap: 5 });
+    addParagraph(practicePage.querySelector("#workbook-title")?.textContent.trim() || "LKPD Pendamping: Hobi dan Kata Penghubung", { fontSize: 18, bold: true, gap: 5 });
     addParagraph("Nama siswa: __________________________________    Kelas: __________", { gap: 2 });
     addParagraph("Tanggal: ______________________________", { gap: 6 });
 
